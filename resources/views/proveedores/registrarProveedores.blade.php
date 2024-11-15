@@ -34,7 +34,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
-                    <input type="email" class="form-control" id="correo" name="correo" required>
+                    <input type="email" class="form-control" id="correo" name="correo">
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>

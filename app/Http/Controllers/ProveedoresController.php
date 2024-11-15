@@ -25,10 +25,10 @@ class ProveedoresController extends Controller
     {
         // Validar los datos del formulario
         $request->validate([
-            'ruc' => 'required|digits:11|numeric',
+            'ruc' => 'required|digits:11|numeric|unique:proveedores,ruc',
             'nombre' => 'required',
             'telefono' => 'required',
-            'correo' => 'required',
+            'correo' => 'nullable',
             'direccion' => 'required',
             'estado' => 'required|in:Activo,Inactivo',
         ]);

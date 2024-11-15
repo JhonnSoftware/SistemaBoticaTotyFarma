@@ -21,10 +21,10 @@ class ClienteController extends Controller
     {
         // Validar los datos del formulario, incluyendo la unicidad del DNI con mensaje personalizado
         $request->validate([
-            'dni' => 'required|unique:clientes,dni', // Asegura que el DNI sea único en la tabla 'clientes'
+            'dni' => 'required|numeric|digits:8|unique:clientes,dni', // Asegura que el DNI sea único en la tabla 'clientes'
             'nombre' => 'required',
-            'telefono' => 'required',
-            'direccion' => 'required',
+            'telefono' => 'nullable',
+            'direccion' => 'nullable',
             'estado' => 'required',
         ], [
             'dni.unique' => 'El DNI ya ha sido registrado.', // Mensaje personalizado

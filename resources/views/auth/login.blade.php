@@ -17,7 +17,6 @@
                     <!-- Formulario de login -->
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <!-- Email Address -->
                         <div class="mb-3">
                             <x-input-label for="email" :value="__('Correo Electrónico')" class="form-label" />

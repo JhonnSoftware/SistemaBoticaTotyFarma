@@ -1,3 +1,4 @@
+
 @extends('layouts.plantilla')
 
 @section('title', 'Home')
@@ -17,7 +18,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <a href="" class="text-white">Ver Detalle</a>
+                    <a href="{{ route('users.index') }}" class="text-white">Ver Detalle</a>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
@@ -179,4 +180,90 @@
     </div>
 @endsection
 
+
+@section('scripts')
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ <script>
+     document.addEventListener('DOMContentLoaded', function () {
+            // Gráfico de Productos con Stock Mínimo - Tipo Pie
+            var ctxStockMinimo = document.getElementById('stockMinimo');
+            if (ctxStockMinimo) {
+                var stockMinimoChart = new Chart(ctxStockMinimo.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: [
+                            @foreach($productosStockMinimo as $producto)
+                                '{{ $producto->descripcion  }}',
+                            @endforeach
+                        ],
+                        datasets: [{
+                            label: 'Cantidad',
+                            data: [
+                                @foreach($productosStockMinimo as $producto)
+                                    {{ $producto->cantidad }},
+                                @endforeach
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+            }
+
+            var ctxProductosMasVendidos = document.getElementById('ProductosMasVendidos');
+            if (ctxProductosMasVendidos) {
+                var productosMasVendidosChart = new Chart(ctxProductosMasVendidos.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: [
+                            @foreach($productosMasVendidos as $detalle)
+                                '{{ $detalle->producto->descripcion  }}',
+                            @endforeach
+                        ],
+                        datasets: [{
+                            label: 'Cantidad Vendida',
+                            data: [
+                                @foreach($productosMasVendidos as $detalle)
+                                    {{ $detalle->total_vendido }},
+                                @endforeach
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+            }
+        });
+ </script>
 
