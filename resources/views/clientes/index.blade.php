@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-
+        <!--
         <div class="col-xl-3 col-md-6">
             <div class="card bg-warning text-white">
                 <div class="card-body d-flex flex-column">
@@ -80,6 +80,7 @@
                 </div>
             </div>
         </div>
+    -->
     </div>
 
     <a href="{{ route('clientes.registrar') }}" class="btn btn-primary mb-2">
