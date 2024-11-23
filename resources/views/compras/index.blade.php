@@ -105,4 +105,11 @@
             document.getElementById('precio_compra').value = precio;
         });
     </script>
+
+    @if (session('pdf_url'))
+    <script>
+        window.open('{{ session('pdf_url') }}', '_blank');
+    </script>
+    @endif
+    
 @endsection

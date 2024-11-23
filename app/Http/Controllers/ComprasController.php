@@ -10,6 +10,8 @@ use App\Models\Proveedores;
 use App\Models\Compra;
 use App\Models\DetalleCompra;
 use App\Models\TemporalDetalleCompra;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class ComprasController extends Controller
 {
@@ -95,8 +97,19 @@ class ComprasController extends Controller
     
         // Limpiar la tabla temporal
         DB::table('temporal_detalles_compra')->truncate();
-    
-        return redirect()->route('compras.index')->with('success', 'Compra registrada exitosamente');
+        
+        // Generar el PDF con los detalles de la compra
+        $pdf = PDF::loadView('compras.pdf', compact('compra', 'productosTemporales'));
+
+        // Guardar el PDF en la carpeta 'public/pdf'
+        $pdfPath = 'pdf/compra_' . $compra->id . '.pdf';
+        $pdf->save(public_path($pdfPath));
+
+        // Redirigir con el mensaje de éxito y la URL del PDF
+        return redirect()->route('compras.index')->with([
+            'success' => 'Compra registrada exitosamente',
+            'pdf_url' => url($pdfPath), // Genera la URL completa del PDF
+        ]);
     }
 
     public function lista() {

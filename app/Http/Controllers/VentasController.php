@@ -9,6 +9,7 @@ use App\Models\Clientes; // Modelo para clientes
 use App\Models\Venta;
 use App\Models\DetalleVenta;
 use App\Models\TemporalDetalleVenta;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VentasController extends Controller
 {
@@ -91,8 +92,20 @@ class VentasController extends Controller
 
         // Limpiar la tabla temporal
         DB::table('temporal_detalles_ventas')->truncate();
+        
+        // Generar el PDF con los detalles de la venta
+        $pdf = PDF::loadView('ventas.pdf', compact('venta', 'productosTemporales'));
 
-        return redirect()->route('ventas.index')->with('success', 'Venta registrada exitosamente');
+        // Guardar el PDF en la carpeta 'public/pdf'
+        $pdfPath = 'pdf/venta_' . $venta->id . '.pdf';
+        $pdf->save(public_path($pdfPath));
+
+        // Redirigir con el mensaje de éxito y la URL del PDF
+        return redirect()->route('ventas.index')->with([
+            'success' => 'Venta registrada exitosamente',
+            'pdf_url' => url($pdfPath), // Genera la URL completa del PDF
+        ]);
+
     }
 
     public function lista() {

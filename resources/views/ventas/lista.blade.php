@@ -35,9 +35,15 @@
                             </form>
 
                             <!-- Acción para descargar el PDF -->
-                            <a href="#" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-file-pdf"></i> PDF
-                            </a>
+                            @if (file_exists(public_path('pdf/venta_' . $venta->id . '.pdf')))
+                                <a href="{{ url('pdf/venta_' . $venta->id . '.pdf') }}" target="_blank" class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                            @else
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

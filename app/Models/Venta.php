@@ -13,6 +13,12 @@ class Venta extends Model
 
     protected $fillable = ['id_cliente', 'total', 'fecha', 'estado'];
 
+    // Relación con el cliente
+    public function cliente() {
+        return $this->belongsTo(Clientes::class, 'id_cliente'); // 'id_cliente' es la clave foránea en la tabla ventas
+    }
+
+    
     public function detalles() {
         return $this->hasMany(DetalleVenta::class, 'id_venta');
     }
