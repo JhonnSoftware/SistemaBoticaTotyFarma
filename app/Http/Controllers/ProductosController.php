@@ -11,7 +11,24 @@ class ProductosController extends Controller
 {
     public function index() {
         $productos = Producto::with(['proveedor', 'categoria'])->get();
-        return view('productos.index', compact('productos'));
+        // Productos en stock
+        $productosEnStock = Producto::where('cantidad', '>', 0)->count();
+        // Productos sin stock
+        $productosSinStock = Producto::where('cantidad', 0)->count();
+        // Producto más vendido (suma la cantidad total vendida)
+        $productoMasVendido = Producto::withSum('detalleVentas as total_vendido', 'cantidad')
+        ->orderBy('total_vendido', 'desc')
+        ->first();
+        // Productos inactivos
+        $productosInactivos = Producto::where('estado', 'Inactivo')->count();
+
+        return view('productos.index', compact(
+            'productos',
+            'productosEnStock', 
+            'productosSinStock', 
+            'productoMasVendido', 
+            'productosInactivos'
+        ));
     }
     
     public function registrarProducto() {

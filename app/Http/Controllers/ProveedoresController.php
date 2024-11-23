@@ -9,12 +9,27 @@ use Illuminate\Support\Facades\Mail;
 class ProveedoresController extends Controller
 {
     public function index(){
-
+        // Proveedores registrados en los últimos 30 días
+        $proveedoresNuevos = Proveedores::where('created_at', '>=', now()->subDays(30))->count();
+        // Proveedores activos
+        $proveedoresActivos = Proveedores::where('estado', 'Activo')->count();
+        // Proveedores inactivos
+        $proveedoresInactivos = Proveedores::where('estado', 'Inactivo')->count();
+        // Proveedor más recurrente (con más productos)
+        $proveedorRecurrente = Proveedores::withCount('productos')
+            ->orderBy('productos_count', 'desc')
+            ->first();
         // Obtener todos los clientes de la base de datos
         $proveedores = Proveedores::all();
 
         // Pasar los clientes a la vista
-        return view('proveedores.index', compact('proveedores'));
+        return view('proveedores.index', compact(
+            'proveedores',
+            'proveedoresNuevos', 
+            'proveedoresActivos', 
+            'proveedoresInactivos', 
+            'proveedorRecurrente'
+        ));
     }
 
     public function registrarProveedores(){

@@ -12,7 +12,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h3 class="fw-bold mb-0"><span class="text-white">{{ $totalUsuarios }}</span></h3>
-                            <p class="mb-0">Usuarios</p>
+                            <p class="mb-0">Total Usuarios</p>
                         </div>
                         <i class="fas fa-user fa-3x"></i>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h3 class="fw-bold mb-0"><span class="text-white"></span>{{ $totalClientes }}</span></h3>
-                            <p class="mb-0">Clientes</p>
+                            <p class="mb-0">Total Clientes</p>
                         </div>
                         <i class="fas fa-users fa-3x"></i>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h3 class="fw-bold mb-0"><span class="text-white"></span>{{ $totalProductos }}</span></h3>
-                            <p class="mb-0">Productos</p>
+                            <p class="mb-0">Total Productos</p>
                         </div>
                         <i class="fab fa-product-hunt fa-3x"></i>
                     </div>
@@ -83,33 +83,32 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0"><span class="text-white">---</span></h3>
-                            <p class="mb-0">Opción</p>
+                            <h3 class="fw-bold mb-0"><span class="text-white">{{ $totalCategorias }}</span></h3>
+                            <p class="mb-0">Total Categorias</p>
                         </div>
-                        <i class="fas fa-shopping-cart fa-3x"></i>
+                        <i class="fas fa-tags fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <a href="" class="text-white">Ver Detalle</a>
+                    <a href="{{ route('categorias.index') }}" class="text-white">Ver Detalle</a>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
         
-
         <div class="col-xl-3 col-md-6 pt-2">
             <div class="card text-white" style="background-color: #ff5722;">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0"><span class="text-white">---</span></span></h3>
-                            <p class="mb-0">Opcion</p>
+                            <h3 class="fw-bold mb-0"><span class="text-white">S/. {{ number_format($totalVentasAnuladas, 2) }}</span></span></h3>
+                            <p class="mb-0">Ventas Anuladas</p>
                         </div>
-                        <i class="fas fa-shopping-cart fa-3x"></i>
+                        <i class="fas fa-ban fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <a href="" class="text-white">Ver Detalle</a>
+                    <a href="{{ route('ventas.lista') }}" class="text-white">Ver Detalle</a>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
@@ -120,14 +119,14 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0"><span class="text-white">---</span></span></h3>
-                            <p class="mb-0">Opcion</p>
+                            <h3 class="fw-bold mb-0"><span class="text-white">S/. {{ number_format($totalComprasAnuladas, 2) }}</span></span></h3>
+                            <p class="mb-0">Compras Anuladas</p>
                         </div>
-                        <i class="fas fa-shopping-cart fa-3x"></i>
+                        <i class="fas fa-times-circle fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <a href="" class="text-white">Ver Detalle</a>
+                    <a href="{{ route('compras.lista') }}" class="text-white">Ver Detalle</a>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
@@ -138,14 +137,14 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0"><span class="text-white">---</span></span></h3>
-                            <p class="mb-0">Opcion</p>
+                            <h3 class="fw-bold mb-0"><span class="text-wite">S/. {{ number_format($comprasMes, 2) }}</span></span></h3>
+                            <p class="mb-0">Compras del Mes</p>
                         </div>
-                        <i class="fas fa-shopping-cart fa-3x"></i>
+                        <i class="fas fa-shopping-bag fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <a href="" class="text-white">Ver Detalle</a>
+                    <a href="{{ route('compras.lista') }}" class="text-white">Ver Detalle</a>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
@@ -163,7 +162,7 @@
                 <div class="card-body">
                     <canvas id="stockMinimo"></canvas>
                 </div>
-            </div>
+            </div>h
         </div>
 
         <!-- Productos Mas Vendidos -->

@@ -16,7 +16,11 @@ class Producto extends Model
     public function categoria() {
         return $this->belongsTo(Categorias::class, 'id_categoria');
     }
-
+    // Relación con detalle ventas
+    public function detalleVentas() {
+        return $this->hasMany(DetalleVenta::class, 'id_producto'); // Asegúrate que 'id_producto' es la clave foránea en 'detalleventas'
+    }
+    
     protected $fillable = [
         'codigo', 
         'descripcion', 

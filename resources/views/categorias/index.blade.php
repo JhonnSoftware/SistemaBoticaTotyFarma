@@ -9,80 +9,85 @@
 
     
     <div class="row pb-3">
+        <!-- Categorías registradas -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-orange text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Venta Mensual</p>
+                            <h3 class="fw-bold mb-0">{{ $categoriasRegistradas }}</h3>
+                            <p class="mb-0">Categorías Registradas</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-folder fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
+                    <span>Más información</span>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
     
+        <!-- Categorías activas -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-orange text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes Activos</p>
+                            <h3 class="fw-bold mb-0">{{ $categoriasActivas }}</h3>
+                            <p class="mb-0">Categorías Activas</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-check-circle fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
+                    <span>Más información</span>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
     
+        <!-- Categorías inactivas -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-orange text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes Inactivos</p>
+                            <h3 class="fw-bold mb-0">{{ $categoriasInactivas }}</h3>
+                            <p class="mb-0">Categorías Inactivas</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-times-circle fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
+                    <span>Más información</span>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
     
+        <!-- Categoría más utilizada -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-orange text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes con más ventas</p>
+                            <h3 class="fw-bold mb-0 text-truncate" style="max-width: 200px;">
+                                {{ $categoriaMasUtilizada->nombre ?? 'N/A' }}
+                            </h3>
+                            <p class="mb-0">Categoría Más Utilizada</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-star fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
+                    <span>Más información</span>
                     <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
     </div>
     
-
     <a href="{{ route('categorias.registrar') }}" class="btn btn-primary mb-2">
         <i class="fas fa-plus"></i> Nuevo Categoria
     </a>

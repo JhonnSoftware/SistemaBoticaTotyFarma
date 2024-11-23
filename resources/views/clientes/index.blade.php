@@ -14,10 +14,10 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Venta Mensual</p>
+                            <h3 class="fw-bold mb-0">{{ $clientesNuevos }}</h3>
+                            <p class="mb-0">Nuevos Clientes</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-user-plus fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -32,10 +32,10 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
+                            <h3 class="fw-bold mb-0">{{ $clientesActivos }}</h3>
                             <p class="mb-0">Clientes Activos</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-users fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -50,10 +50,10 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
+                            <h3 class="fw-bold mb-0">{{ $clientesInactivos }}</h3>
                             <p class="mb-0">Clientes Inactivos</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-user-slash fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -68,10 +68,12 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
+                            <h3 class="fw-bold mb-0 text-truncate" style="max-width: 150px;">
+                                {{ $clientesConMasVentas->nombre ?? 'N/A' }}
+                            </h3>
                             <p class="mb-0">Clientes con mas ventas</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-chart-line fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -177,6 +179,13 @@
             display: flex;
             gap: 10px; /* Espacio entre botones */
             margin-left: 10px;
+        }
+        .text-truncate {
+            white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+            overflow: hidden;    /* Oculta el contenido que exceda el ancho */
+            text-overflow: ellipsis; /* Agrega "..." al final del texto truncado */
+            max-width: 100%;     /* Asegura que el ancho máximo respete el contenedor */
+            display: block;      /* Asegura el comportamiento como un bloque */
         }
     </style>
 @endsection

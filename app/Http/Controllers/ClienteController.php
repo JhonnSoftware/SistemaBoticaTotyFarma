@@ -8,9 +8,21 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
     public function index(){
+        // Contar la cantidad de clientes activos
+        $clientesActivos = Clientes::where('estado', 'Activo')->count();
+        // Contar la cantidad de clientes inactivos
+        $clientesInactivos = Clientes::where('estado', 'Inactivo')->count();
+        // Clientes registrados en los últimos 30 días
+        $clientesNuevos = Clientes::where('created_at', '>=', now()->subDays(30))->count();
+        //Calcular los clientes con mas ventas
+        $clientesConMasVentas = Clientes::withCount('ventas')
+        ->orderBy('ventas_count', 'desc')
+        ->limit(1)
+        ->first();
+
         // Solo mostrar clientes activos
         $clientes = Clientes::all();
-        return view('clientes.index', compact('clientes'));
+        return view('clientes.index', compact('clientes', 'clientesActivos', 'clientesInactivos', 'clientesNuevos', 'clientesConMasVentas'));
     }
 
     public function registrarClientes(){

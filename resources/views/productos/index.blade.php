@@ -6,16 +6,18 @@
     <ol class="breadcrumb mb-4 pt-3">
         <li class="breadcrumb-item active">Productos</li>
     </ol>
+
     <div class="row pb-3">
+        <!-- Total de productos registrados -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-purple text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Venta Mensual</p>
+                            <h3 class="fw-bold mb-0">{{ $productosEnStock }}</h3>
+                            <p class="mb-0">Productos en Stock</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-box fa-3x"></i> <!-- Ícono de caja para productos en stock -->
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -25,15 +27,16 @@
             </div>
         </div>
     
+        <!-- Productos sin stock -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-purple text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes Activos</p>
+                            <h3 class="fw-bold mb-0">{{ $productosSinStock }}</h3>
+                            <p class="mb-0">Productos Sin Stock</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-exclamation-circle fa-3x"></i> <!-- Ícono de advertencia para sin stock -->
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -43,15 +46,18 @@
             </div>
         </div>
     
+        <!-- Producto más vendido -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-purple text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes Inactivos</p>
+                            <h3 class="fw-bold mb-0 text-truncate" style="max-width: 200px;">
+                                {{ $productoMasVendido->descripcion ?? 'N/A' }}
+                            </h3>
+                            <p class="mb-0">Producto Más Vendido</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-star fa-3x"></i> <!-- Ícono de estrella para producto más vendido -->
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
@@ -61,15 +67,18 @@
             </div>
         </div>
     
+        <!-- Productos inactivos -->
         <div class="col-xl-3 col-md-6">
             <div class="card custom-bg-purple text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Clientes con más ventas</p>
+                            <h3 class="fw-bold mb-0 text-truncate" style="max-width: 200px;">
+                                {{ $productosInactivos }}
+                            </h3>
+                            <p class="mb-0">Productos Inactivos</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-ban fa-3x"></i> <!-- Ícono de prohibición para productos inactivos -->
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">

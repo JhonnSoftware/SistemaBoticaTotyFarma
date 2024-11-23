@@ -8,70 +8,75 @@
     </ol>
 
     <div class="row pb-3">
-        
+        <!-- Proveedores nuevos -->
         <div class="col-xl-3 col-md-6">
             <div class="card bg-success text-white">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
+                            <h3 class="fw-bold mb-0">{{ $proveedoresNuevos }}</h3>
+                            <p class="mb-0">Proveedores nuevos</p>
+                        </div>
+                        <i class="fas fa-user-plus fa-3x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
+                    <span>More info</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Proveedores activos -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fw-bold mb-0">{{ $proveedoresActivos }}</h3>
+                            <p class="mb-0">Proveedores activos</p>
+                        </div>
+                        <i class="fas fa-handshake fa-3x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
+                    <span>More info</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Proveedores inactivos -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fw-bold mb-0">{{ $proveedoresInactivos }}</h3>
+                            <p class="mb-0">Proveedores inactivos</p>
+                        </div>
+                        <i class="fas fa-user-slash fa-3x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
+                    <span>More info</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Proveedor más recurrente -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="fw-bold mb-0 text-truncate" style="max-width: 200px;">
+                                {{ $proveedorRecurrente->nombre ?? 'N/A' }}
+                            </h3>
                             <p class="mb-0">Proveedor recurrente</p>
                         </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Proveedores Activos</p>
-                        </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Proveedores Inactivos</p>
-                        </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between align-items-center text-white-50">
-                    <span>More info</span>
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="fw-bold mb-0">32.5</h3>
-                            <p class="mb-0">Proveedores</p>
-                        </div>
-                        <i class="fas fa-calendar-alt fa-3x"></i>
+                        <i class="fas fa-chart-line fa-3x"></i>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center text-white-50">

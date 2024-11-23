@@ -10,9 +10,25 @@ class CategoriasController extends Controller
 
         // Obtener todos los clientes de la base de datos
         $categorias = Categorias::all();
-
-        // Pasar los clientes a la vista
-        return view('categorias.index', compact('categorias'));
+        // Total de categorías registradas
+        $categoriasRegistradas = Categorias::count();
+        // Total de categorías activas
+        $categoriasActivas = Categorias::where('estado', 'Activo')->count();
+        // Total de categorías inactivas
+        $categoriasInactivas = Categorias::where('estado', 'Inactivo')->count();
+        // Categoría más utilizada (con más productos asociados)
+        $categoriaMasUtilizada = Categorias::withCount('productos')
+            ->orderBy('productos_count', 'desc')
+            ->first();
+            // Pasar los clientes a la vista
+        
+            return view('categorias.index', compact(
+                'categorias',
+                'categoriasRegistradas', 
+                'categoriasActivas', 
+                'categoriasInactivas', 
+                'categoriaMasUtilizada'
+            ));
     }
 
     public function registrarCategorias(){
