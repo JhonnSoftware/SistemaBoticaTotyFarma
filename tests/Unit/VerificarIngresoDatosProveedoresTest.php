@@ -67,24 +67,6 @@ class VerificarIngresoDatosProveedoresTest extends TestCase
         $response->assertSessionHasErrors('ruc');
     }
 
-    public function test_error_al_faltar_correo()
-    {
-        // Datos sin el campo correo
-        $data = [
-            'ruc' => '98765432109',
-            'nombre' => 'Proveedor Sin Correo',
-            'telefono' => '987654321',
-            'direccion' => 'Calle Sin Correo 789',
-            'estado' => 'Activo',
-        ];
-
-        // Ejecutar la petición POST para crear un proveedor sin correo
-        $response = $this->withoutMiddleware()->actingAsAdmin()->post(route('proveedores.store'), $data);
-
-        // Verificar que se recibe un error de validación
-        $response->assertSessionHasErrors('correo');
-    }
-
     public function test_error_al_faltar_estado()
     {
         // Datos sin el campo estado

@@ -3,7 +3,7 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   e2e: {
     
-    baseUrl: 'http://localhost/proyectoSistemaBotica%20-%20copia/public/',
+    baseUrl: 'http://localhost/proyectoSistemaBotica02/public/',
 
     setupNodeEvents(on, config) {
       // implementa aquí los listeners de eventos de nodo
