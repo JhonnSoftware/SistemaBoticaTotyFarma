@@ -15,18 +15,27 @@
 
         <div class="card mb-4">
             <div class="card-header">Agregar Producto</div>
-            
             <div class="card-body">
-                <form action="{{ route('productos.store') }}" method="POST">
+                <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="codigo" class="form-label">Código</label>
-                        <input type="text" class="form-control" id="codigo" name="codigo" required>
+                        <input type="text" class="form-control" id="codigo" name="codigo" value="{{ $nuevoCodigo }}" readonly>
                     </div>
 
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="presentacion" class="form-label">Presentacion</label>
+                        <input type="text" class="form-control" id="presentacion" name="presentacion" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="stock_minimo" class="form-label">Stock Minimo</label>
+                        <input type="number" class="form-control" name="stock_minimo" id="stock_minimo" required>
                     </div>
 
                     <div class="mb-3">
@@ -37,6 +46,16 @@
                     <div class="mb-3">
                         <label for="precio_venta" class="form-label">Precio Venta</label>
                         <input type="number" step="0.01" class="form-control" id="precio_venta" name="precio_venta" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="laboratorio" class="form-label">Laboratorio</label>
+                        <input type="text" class="form-control" id="laboratorio" name="laboratorio" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento" required>
                     </div>
 
                     <div class="mb-3">
@@ -55,6 +74,11 @@
                                 <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="foto">Foto</label>
+                        <input type="file" class="form-control" name="foto" id="foto" accept="image/*">
                     </div>
 
                     <div class="mb-3">

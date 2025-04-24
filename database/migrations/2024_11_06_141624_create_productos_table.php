@@ -16,9 +16,14 @@ return new class extends Migration
             $table->id();
             $table->string('codigo');
             $table->text('descripcion');
+            $table->string('presentacion');
             $table->decimal('precio_compra', 8, 2);
             $table->decimal('precio_venta', 8, 2);
             $table->integer('cantidad')->default(0);
+            $table->integer('stock_minimo');
+            $table->string('laboratorio');
+            $table->date('fecha_vencimiento');
+            $table->string('foto');
             $table->foreignId('id_proveedor')->constrained('proveedores');
             $table->foreignId('id_categoria')->constrained('categorias');
             $table->string('estado'); // Activo por defecto

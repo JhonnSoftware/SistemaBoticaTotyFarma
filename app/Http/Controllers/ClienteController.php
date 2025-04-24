@@ -24,7 +24,7 @@ class ClienteController extends Controller
         $clientes = Clientes::all();
         return view('clientes.index', compact('clientes', 'clientesActivos', 'clientesInactivos', 'clientesNuevos', 'clientesConMasVentas'));
     }
-
+    
     public function registrarClientes(){
         return view('clientes.registrarClientes');
     }
@@ -52,7 +52,7 @@ class ClienteController extends Controller
         ]);
 
         // Redirigir a una página con un mensaje de éxito
-        return redirect()->route('clientes.registrar')->with('success', 'Cliente ingresado correctamente');
+        return redirect()->route('clientes.index')->with('success', 'Cliente ingresado correctamente');
     }
 
     public function eliminarCliente($id)

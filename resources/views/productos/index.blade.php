@@ -92,15 +92,21 @@
     <a href="{{ route('productos.registrar') }}" class="btn btn-primary mb-2">
         <i class="fas fa-plus"></i> Nuevo Producto
     </a>
+    <a href="{{ route('productos.detalles') }}" class="btn btn-primary mb-2">
+        <i class="fas fa-eye"></i> Ver Detalles
+    </a>
+
     <table class="table" id="tblProductos">
         <thead class="thead-dark">
             <tr class="bg-dark">
                 <th class="text-white">Id</th>
                 <th class="text-white">Codigo</th>
                 <th class="text-white">Descripcion</th>
+                <th class="text-white">Stock Minimo</th>
                 <th class="text-white">P.Compra</th>
                 <th class="text-white">P.Venta</th>
                 <th class="text-white">Stock</th>
+                <th class="text-white">Foto</th>
                 <th class="text-white">Estado</th>
                 <th class="text-white">Acciones</th>
             </tr>
@@ -112,9 +118,17 @@
                     <td>{{ $producto->id }}</td>
                     <td>{{ $producto->codigo }}</td>
                     <td>{{ $producto->descripcion }}</td>
+                    <td>{{ $producto->stock_minimo}}</td>
                     <td>{{ $producto->precio_compra }}</td>
                     <td>{{ $producto->precio_venta }}</td>
                     <td>{{ $producto->cantidad }}</td>
+                    <td>
+                        @if($producto->foto)
+                            <img src="{{ asset('storage/' . $producto->foto) }}" alt="Foto de Producto" width="50" height="50">
+                        @else
+                            <span>No disponible</span>
+                        @endif
+                    </td>
                     <td>{{ $producto->estado }}</td>
                     <td>
                         @if($producto->estado == 'Activo')

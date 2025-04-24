@@ -12,6 +12,8 @@ use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\ArqueoCajaController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\MovimientosController;
+use App\Models\Movimientos;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -83,6 +85,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('categorias', 'index')->name('categorias.index'); 
         Route::get('categorias/registrarCategorias', 'registrarCategorias')->name('categorias.registrar');
         Route::post('categorias', 'store')->name('categorias.store');
+        
         Route::get('categorias/eliminarCategoria/{id}', 'eliminarCategoria')->name('categorias.eliminar');
         Route::get('categorias/reingresarCategoria/{id}', 'reingresarCategoria')->name('categorias.reingresar');
         Route::get('categorias/editarCategoria/{id}', 'editarCategoria')->name('categorias.editar');
@@ -98,7 +101,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('productos/reingresarProducto/{id}', 'reingresarProducto')->name('productos.reingresar');
     
         Route::get('productos/editarProducto/{id}', 'editarProducto')->name('productos.editar'); // Ruta para editar formulario
-        Route::post('productos/actualizarProducto/{id}', 'actualizarProducto')->name('productos.actualizar'); 
+        Route::post('productos/actualizarProducto/{id}', 'actualizarProducto')->name('productos.actualizar');
+        
+        Route::get('productos/verDetalles', 'verDetalles')->name('productos.detalles');
+        // Ruta para marcar todas las notificaciones como leídas
+        Route::get('productos/notificaciones/leer', 'marcarNotificacionesLeidas')->name('productos.notificaciones.leer');
     });
 
     Route::controller(ComprasController::class)->group(function(){
@@ -115,6 +122,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('ventas/agregarProductoTemporal', 'agregarProductoTemporal')->name('ventas.agregarProductoTemporal');
         Route::post('ventas/guardarVenta', 'guardarVenta')->name('ventas.guardarVenta');
         Route::delete('ventas/eliminarProductoTemporal/{id}', 'eliminarProductoTemporal')->name('ventas.eliminarProductoTemporal');
+
+        Route::get('ventas/autocompletar', 'autocompletar')->name('ventas.autocompletar');
+
         Route::get('ventas/lista', [VentasController::class, 'lista'])->name('ventas.lista');
         Route::post('ventas/anular/{id}', 'anularVenta')->name('ventas.anular');
     
@@ -125,6 +135,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('arqueos/create', 'create')->name('arqueos.create'); // Formulario para nuevo arqueo
         Route::post('arqueos', 'store')->name('arqueos.store'); // Guardar nuevo arqueo
         Route::post('arqueos/cerrar/{id}', 'cerrarArqueo')->name('arqueos.cerrar'); // Cerrar arqueo
+    });
+
+    Route::controller(MovimientosController::class)->group(function(){
+        Route::get('movimientos', 'index')->name('movimientos.index');
     });
 
 });

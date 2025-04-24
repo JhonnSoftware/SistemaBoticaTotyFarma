@@ -16,6 +16,8 @@
                 <th class="text-white">Id</th>
                 <th class="text-white">Nombre</th>
                 <th class="text-white">Email</th>
+                <th class="text-white">Rol</th>
+                <th class="text-white">Foto</th>
                 <th class="text-white">Acciones</th>
             </tr>
         </thead>
@@ -26,6 +28,14 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td>
+                        @if($user->foto)
+                            <img src="{{ asset('storage/' . $user->foto)}}" alt="" width="50" height="50">
+                        @else
+                            <span>No disponible</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('users.editar', $user->id) }}" class="btn btn-sm btn-warning">Editar</a>
                         <a href="{{ route('users.eliminar', $user->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres marcar este usuario como inactivo?');">Eliminar</a>

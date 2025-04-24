@@ -28,13 +28,22 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required',
+            'role' => 'required',
+            'foto' => 'required|image|mimes:jpg,jpeg,png',
         ]);
 
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('usuarios', 'public'); // Muestra la ruta del archivo almacenado
+        }
+    
         // Crear el usuario
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Encriptar la contraseña
+            'role' => $request->role,
+            'foto' => $fotoPath,
         ]);
 
         // Redirigir con mensaje de éxito

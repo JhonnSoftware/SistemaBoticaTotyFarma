@@ -10,6 +10,7 @@ use App\Models\Proveedores;
 use App\Models\Compra;
 use App\Models\DetalleCompra;
 use App\Models\TemporalDetalleCompra;
+use App\Models\Movimientos;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
@@ -66,7 +67,7 @@ class ComprasController extends Controller
         // Calcular el total de la compra
         $productosTemporales = TemporalDetalleCompra::with('producto')->get();
         $total = $productosTemporales->sum('sub_total');
-    
+        $cantidadTotal = $productosTemporales->sum('cantidad');
         // Crear la compra
         $compra = Compra::create([
             'id_proveedor' => $validated['id_proveedor'],
@@ -94,7 +95,15 @@ class ComprasController extends Controller
             // Guardar la actualización del producto
             $producto->save();
         }
-    
+        
+        Movimientos::create([
+            'fecha' => now(),
+            'cantidad' => $cantidadTotal,
+            'total' => $total,
+            'tipo' => 'Salida',
+            'usuario_id' => auth()->id(),
+        ]);
+
         // Limpiar la tabla temporal
         DB::table('temporal_detalles_compra')->truncate();
         

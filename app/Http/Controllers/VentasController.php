@@ -8,7 +8,10 @@ use App\Models\Producto;
 use App\Models\Clientes; // Modelo para clientes
 use App\Models\Venta;
 use App\Models\DetalleVenta;
+use App\Models\Documentos;
 use App\Models\TemporalDetalleVenta;
+use App\Models\TipoPago;
+use App\Models\Movimientos;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class VentasController extends Controller
@@ -16,10 +19,27 @@ class VentasController extends Controller
     // Mostrar la página principal de ventas
     public function index() {
         $productos = Producto::all();
-        $clientes = Clientes::all();  // Obtener los clientes
+        $clientes = Clientes::all();  
+        $tipopago = TipoPago::all();
+        $documento = Documentos::all();
+
         $productosTemporales = TemporalDetalleVenta::with('producto')->get();  // Obtener productos temporales
 
-        return view('ventas.index', compact('productos', 'clientes', 'productosTemporales'));
+        $sumar = TemporalDetalleVenta::all();
+        $totalVenta = $sumar->sum('sub_total');
+
+        $ultimoCodigo = Venta::latest("id")->first();
+        $nuevoCodigo = 'V0000-' . str_pad(($ultimoCodigo ? $ultimoCodigo->id + 1 : 1), 6, '0', STR_PAD_LEFT);
+
+        return view('ventas.index', compact(
+            'productos', 
+            'clientes', 
+            'productosTemporales', 
+            'totalVenta',
+            'tipopago',
+            'documento',
+            'nuevoCodigo'
+        ));
     }
 
     public function agregarProductoTemporal(Request $request) {
@@ -56,10 +76,21 @@ class VentasController extends Controller
         return redirect()->route('ventas.index')->with('success', 'Producto eliminado temporalmente');
     }
 
+    public function autocompletar(Request $request){
+        $termino = $request->get('query');
+        $productos = Producto::where('descripcion', 'like', '%' . $termino . '%')
+        ->select('id', 'descripcion', 'precio_venta')
+        ->get();
+        return response()->json($productos);
+    }
+
     public function guardarVenta(Request $request) {
-        // Validar la selección del cliente
+        
         $validated = $request->validate([
+            'codigo' => 'required',
             'id_cliente' => 'required|exists:clientes,id',
+            'id_pago' => 'required|exists:tipopago,id',
+            'id_documento' => 'required|exists:documento,id',
         ]);
 
         // Calcular el total de la venta
@@ -68,10 +99,13 @@ class VentasController extends Controller
 
         // Crear la venta
         $venta = Venta::create([
+            'codigo' => $validated['codigo'],
             'id_cliente' => $validated['id_cliente'],
             'total' => $total,
             'fecha' => now(),
             'estado' => 'Pagado',
+            'id_pago' => $validated['id_pago'],
+            'id_documento' => $validated['id_documento'],
         ]);
 
         // Guardar los detalles de la venta y actualizar las cantidades en el inventario
@@ -90,12 +124,26 @@ class VentasController extends Controller
             $producto->save();
         }
 
+        $cantidadTotal = $productosTemporales->sum('cantidad');
+
+        Movimientos::create([
+            'fecha' => now(),
+            'cantidad' => $cantidadTotal,
+            'total' => $total,
+            'tipo' => 'Entrada',
+            'usuario_id' => auth()->id(),
+        ]);
+
         // Limpiar la tabla temporal
         DB::table('temporal_detalles_ventas')->truncate();
         
-        // Generar el PDF con los detalles de la venta
-        $pdf = PDF::loadView('ventas.pdf', compact('venta', 'productosTemporales'));
-
+        if($validated['id_documento'] == 1){
+            $pdf = PDF::loadView('ventas.boleta', compact('venta', 'productosTemporales'));
+        }else if ($validated['id_documento'] == 2){
+            $pdf = PDF::loadView('ventas.factura', compact('venta', 'productosTemporales'));
+        }else if ($validated['id_documento'] == 3){
+            $pdf = PDF::loadView('ventas.voucher', compact('venta', 'productosTemporales'));
+        }
         // Guardar el PDF en la carpeta 'public/pdf'
         $pdfPath = 'pdf/venta_' . $venta->id . '.pdf';
         $pdf->save(public_path($pdfPath));
@@ -105,7 +153,7 @@ class VentasController extends Controller
             'success' => 'Venta registrada exitosamente',
             'pdf_url' => url($pdfPath), // Genera la URL completa del PDF
         ]);
-
+        
     }
 
     public function lista() {
@@ -115,7 +163,7 @@ class VentasController extends Controller
         // Retornar la vista con las compras
         return view('ventas.lista', compact('ventas'));
     }
-
+ 
     public function anularVenta($id) {
         // Buscar la venta por su ID
         $venta = Venta::with('detalles.producto')->findOrFail($id);
@@ -135,7 +183,7 @@ class VentasController extends Controller
         // Cambiar el estado de la venta a "Anulado"
         $venta->estado = 'Anulado';
         $venta->save();
-    
+
         return redirect()->route('ventas.lista')->with('success', 'Venta anulada exitosamente.');
     }
     
