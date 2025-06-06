@@ -1,0 +1,388 @@
+-- Crear la base de datos si no existe
+CREATE DATABASE IF NOT EXISTS proyectosistemabotica02;
+
+-- Usar la base de datos
+USE proyectosistemabotica02;
+
+-- Tabla 'clientes'
+CREATE TABLE IF NOT EXISTS clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dni VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    telefono VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla 'categorias'
+CREATE TABLE IF NOT EXISTS categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla 'proveedores'
+CREATE TABLE IF NOT EXISTS proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ruc VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    telefono VARCHAR(255) NOT NULL,
+    correo VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla 'users'
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla 'productos'
+CREATE TABLE IF NOT EXISTS productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL,
+    presentacion VARCHAR(255) NOT NULL,
+    precio_compra DECIMAL(8,2) NOT NULL,
+    precio_venta DECIMAL(8,2) NOT NULL,
+    cantidad INT NOT NULL DEFAULT 0,
+    stock_minimo INT NOT NULL,
+    laboratorio VARCHAR(255) NOT NULL,
+    fecha_vencimiento DATE NOT NULL,
+    foto VARCHAR(255) NOT NULL,
+    id_proveedor INT NOT NULL,
+    id_categoria INT NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_producto_proveedor FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE CASCADE,
+    CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categorias(id) ON DELETE CASCADE
+);
+
+-- Tabla 'arqueos_caja'
+CREATE TABLE IF NOT EXISTS arqueos_caja (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    saldo_inicial DECIMAL(10,2) NOT NULL,
+    ingresos DECIMAL(10,2) NOT NULL,
+    egresos DECIMAL(10,2) NOT NULL,
+    saldo_final_esperado DECIMAL(10,2) NOT NULL,
+    saldo_real DECIMAL(10,2),
+    diferencia DECIMAL(10,2),
+    estado VARCHAR(255) NOT NULL DEFAULT 'Abierto',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+// ====================================================================================================
+// ====================================================================================================
+// ================================= PROCEDIMIENTOS ALMACENADOS ===================================== ///
+// ====================================================================================================
+// ====================================================================================================
+
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Users(
+    IN p_name VARCHAR(255),
+    IN p_email VARCHAR(255),
+    IN p_password VARCHAR(255),
+    IN p_role VARCHAR(50)
+)
+BEGIN
+    INSERT INTO users(name, email, password, role)
+    VALUES (p_name, p_email, p_password, p_role);
+END//
+
+CREATE PROCEDURE SP_C_Tabla_Users()
+BEGIN
+    SELECT * FROM users;
+END//
+
+CREATE PROCEDURE SP_M_Tabla_Users(
+    IN p_id INT,
+    IN p_name VARCHAR(255),
+    IN p_email VARCHAR(255),
+    IN p_password VARCHAR(255),
+    IN p_role VARCHAR(50)
+)
+BEGIN
+    UPDATE users SET
+        name = p_name,
+        email = p_email,
+        password = p_password,
+        role = p_role,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = p_id;
+END//
+
+CREATE PROCEDURE SP_E_Tabla_Users(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM users WHERE id = p_id;
+END//
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Clientes(
+    IN p_dni VARCHAR(255),
+    IN p_nombre VARCHAR(255),
+    IN p_telefono VARCHAR(255),
+    IN p_direccion VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    INSERT INTO clientes(dni, nombre, telefono, direccion, estado)
+    VALUES (p_dni, p_nombre, p_telefono, p_direccion, p_estado);
+END//
+
+CREATE PROCEDURE SP_C_Tabla_Clientes()
+BEGIN
+    SELECT * FROM clientes;
+END//
+
+CREATE PROCEDURE SP_M_Tabla_Clientes(
+    IN p_id INT,
+    IN p_dni VARCHAR(255),
+    IN p_nombre VARCHAR(255),
+    IN p_telefono VARCHAR(255),
+    IN p_direccion VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    UPDATE clientes SET
+        dni = p_dni,
+        nombre = p_nombre,
+        telefono = p_telefono,
+        direccion = p_direccion,
+        estado = p_estado,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = p_id;
+END//
+
+CREATE PROCEDURE SP_E_Tabla_Clientes(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM clientes WHERE id = p_id;
+END//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Categorias(
+    IN p_nombre VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    INSERT INTO categorias(nombre, estado)
+    VALUES (p_nombre, p_estado);
+END//
+
+CREATE PROCEDURE SP_C_Tabla_Categorias()
+BEGIN
+    SELECT * FROM categorias;
+END//
+
+CREATE PROCEDURE SP_M_Tabla_Categorias(
+    IN p_id INT,
+    IN p_nombre VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    UPDATE categorias SET
+        nombre = p_nombre,
+        estado = p_estado,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = p_id;
+END//
+
+CREATE PROCEDURE SP_E_Tabla_Categorias(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM categorias WHERE id = p_id;
+END//
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Proveedores(
+    IN p_ruc VARCHAR(255),
+    IN p_nombre VARCHAR(255),
+    IN p_telefono VARCHAR(255),
+    IN p_correo VARCHAR(255),
+    IN p_direccion VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    INSERT INTO proveedores(ruc, nombre, telefono, correo, direccion, estado)
+    VALUES (p_ruc, p_nombre, p_telefono, p_correo, p_direccion, p_estado);
+END//
+
+CREATE PROCEDURE SP_C_Tabla_Proveedores()
+BEGIN
+    SELECT * FROM proveedores;
+END//
+
+CREATE PROCEDURE SP_M_Tabla_Proveedores(
+    IN p_id INT,
+    IN p_ruc VARCHAR(255),
+    IN p_nombre VARCHAR(255),
+    IN p_telefono VARCHAR(255),
+    IN p_correo VARCHAR(255),
+    IN p_direccion VARCHAR(255),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    UPDATE proveedores SET
+        ruc = p_ruc,
+        nombre = p_nombre,
+        telefono = p_telefono,
+        correo = p_correo,
+        direccion = p_direccion,
+        estado = p_estado,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = p_id;
+END//
+
+CREATE PROCEDURE SP_E_Tabla_Proveedores(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM proveedores WHERE id = p_id;
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Productos(
+    IN p_codigo VARCHAR(255),
+    IN p_descripcion TEXT,
+    IN p_presentacion VARCHAR(255),
+    IN p_precio_compra DECIMAL(8,2),
+    IN p_precio_venta DECIMAL(8,2),
+    IN p_cantidad INT,
+    IN p_stock_minimo INT,
+    IN p_laboratorio VARCHAR(255),
+    IN p_fecha_vencimiento DATE,
+    IN p_foto VARCHAR(255),
+    IN p_id_proveedor INT,
+    IN p_id_categoria INT,
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    INSERT INTO productos(
+        codigo, descripcion, presentacion, precio_compra, precio_venta,
+        cantidad, stock_minimo, laboratorio, fecha_vencimiento, foto,
+        id_proveedor, id_categoria, estado)
+    VALUES (
+        p_codigo, p_descripcion, p_presentacion, p_precio_compra, p_precio_venta,
+        p_cantidad, p_stock_minimo, p_laboratorio, p_fecha_vencimiento, p_foto,
+        p_id_proveedor, p_id_categoria, p_estado
+    );
+END//
+
+CREATE PROCEDURE SP_C_Tabla_Productos()
+BEGIN
+    SELECT * FROM productos;
+END//
+
+CREATE PROCEDURE SP_M_Tabla_Productos(
+    IN p_id INT,
+    IN p_codigo VARCHAR(255),
+    IN p_descripcion TEXT,
+    IN p_presentacion VARCHAR(255),
+    IN p_precio_compra DECIMAL(8,2),
+    IN p_precio_venta DECIMAL(8,2),
+    IN p_cantidad INT,
+    IN p_stock_minimo INT,
+    IN p_laboratorio VARCHAR(255),
+    IN p_fecha_vencimiento DATE,
+    IN p_foto VARCHAR(255),
+    IN p_id_proveedor INT,
+    IN p_id_categoria INT,
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    UPDATE productos SET
+        codigo = p_codigo,
+        descripcion = p_descripcion,
+        presentacion = p_presentacion,
+        precio_compra = p_precio_compra,
+        precio_venta = p_precio_venta,
+        cantidad = p_cantidad,
+        stock_minimo = p_stock_minimo,
+        laboratorio = p_laboratorio,
+        fecha_vencimiento = p_fecha_vencimiento,
+        foto = p_foto,
+        id_proveedor = p_id_proveedor,
+        id_categoria = p_id_categoria,
+        estado = p_estado,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = p_id;
+END//
+
+CREATE PROCEDURE SP_E_Tabla_Productos(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM productos WHERE id = p_id;
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE SP_A_Tabla_Arqueos_Caja(
+    IN p_saldo_inicial DECIMAL(10,2),
+    IN p_ingresos DECIMAL(10,2),
+    IN p_egresos DECIMAL(10,2),
+    IN p_saldo_final_esperado DECIMAL(10,2),
+    IN p_saldo_real DECIMAL(10,2),
+    IN p_diferencia DECIMAL(10,2),
+    IN p_estado VARCHAR(255)
+)
+BEGIN
+    INSERT INTO arqueos_caja(
+        saldo_inicial,
+        ingresos,
+        egresos,
+        saldo_final_esperado,
+        saldo_real,
+        diferencia,
+        estado
+    ) VALUES (
+        p_saldo_inicial,
+        p_ingresos,
+        p_egresos,
+        p_saldo_final_esperado,
+        p_saldo_real,
+        p_diferencia,
+        COALESCE(p_estado, 'Abierto')
+    );
+END//
+
+DELIMITER ;
