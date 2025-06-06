@@ -85,57 +85,10 @@
 
     </div>
 
-    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#agregarClienteModal">
+    <a href="{{ route('clientes.registrar') }}" class="btn btn-primary mb-2">
         <i class="fas fa-plus"></i> Nuevo Cliente
-    </button>
-
-    <!-- Modal para agregar usuario -->
-    <div class="modal fade" id="agregarClienteModal" tabindex="-1" role="dialog" aria-labelledby="agregarClienteLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="agregarClienteLabel">Agregar Nuevo Usuario</h5>
-                    <button type="button" btn-close="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Formulario de registro -->
-                    <form action="{{ route('clientes.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="dni" class="form-label">DNI</label>
-                            <input type="text" class="form-control" id="dni" name="dni" placeholder="Maximo 8 numeros"  required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono">
-                        </div>
-                        <div class="mb-3">
-                            <label for="direccion" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="direccion" name="direccion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-control" id="estado" name="estado" required>
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="success-message" style="display: none;" data-message="{{ session('success') }}"></div>
-
+    </a>
+ 
     <table class="table pt-2 table-striped table-bordered" id="tblClientes">
         <thead class="thead-dark">
             <tr class="bg-dark">
@@ -188,7 +141,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
     <script>
         $(document).ready(function() {
             $('#tblClientes').DataTable({
@@ -271,4 +224,14 @@
             /* Asegura el comportamiento como un bloque */
         }
     </style>
+    @if ($errors->any())
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var modal = new bootstrap.Modal(document.getElementById('agregarClienteModal'));
+                modal.show();
+            });
+        </script>
+    @endif
+
+
 @endsection

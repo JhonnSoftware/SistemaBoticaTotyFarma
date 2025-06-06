@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Clientes;
 use Illuminate\Http\Request;
 
 
 class ClienteController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // Contar la cantidad de clientes activos
         $clientesActivos = Clientes::where('estado', 'Activo')->count();
         // Contar la cantidad de clientes inactivos
@@ -16,22 +18,23 @@ class ClienteController extends Controller
         $clientesNuevos = Clientes::where('created_at', '>=', now()->subDays(30))->count();
         //Calcular los clientes con mas ventas
         $clientesConMasVentas = Clientes::withCount('ventas')
-        ->orderBy('ventas_count', 'desc')
-        ->limit(1)
-        ->first();
+            ->orderBy('ventas_count', 'desc')
+            ->limit(1)
+            ->first();
 
         // Solo mostrar clientes activos
         $clientes = Clientes::all();
         return view('clientes.index', compact('clientes', 'clientesActivos', 'clientesInactivos', 'clientesNuevos', 'clientesConMasVentas'));
     }
-    
-    public function registrarClientes(){
+
+    public function registrarClientes()
+    {
         return view('clientes.registrarClientes');
     }
 
     public function store(Request $request)
     {
-        // Validar los datos del formulario, incluyendo la unicidad del DNI con mensaje personalizado
+        // Validar los datos del formulario
         $request->validate([
             'dni' => 'required|numeric|digits:8|unique:clientes,dni', // Asegura que el DNI sea único en la tabla 'clientes'
             'nombre' => 'required',
@@ -51,9 +54,10 @@ class ClienteController extends Controller
             'estado' => $request->estado,
         ]);
 
-        // Redirigir a una página con un mensaje de éxito
+        // Redirigir con mensaje de éxito
         return redirect()->route('clientes.index')->with('success', 'Cliente ingresado correctamente');
     }
+
 
     public function eliminarCliente($id)
     {
